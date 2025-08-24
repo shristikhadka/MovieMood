@@ -23,6 +23,49 @@ interface TrendingMovie {
   poster_url: string;
 }
 
+interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+  order: number;
+}
+
+interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+  department: string;
+  profile_path: string | null;
+}
+
+interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+}
+
+interface MovieImage {
+  file_path: string;
+  aspect_ratio: number;
+  height: number;
+  width: number;
+  iso_639_1: string | null;
+  vote_average: number;
+  vote_count: number;
+}
+
+interface MovieImages {
+  backdrops: MovieImage[];
+  posters: MovieImage[];
+  logos: MovieImage[];
+}
+
 interface MovieDetails {
   adult: boolean;
   backdrop_path: string | null;
@@ -69,9 +112,47 @@ interface MovieDetails {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  // Additional fields from API
+  cast?: CastMember[];
+  crew?: CrewMember[];
+  videos?: Video[];
+  images?: MovieImages;
 }
 
 interface TrendingCardProps {
   movie: TrendingMovie;
   index: number;
+}
+
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  preferences?: {
+    favoriteGenres: number[];
+    notifications: boolean;
+  };
+}
+
+interface WatchlistItem {
+  id: string;
+  userId: string;
+  movieId: number;
+  movieTitle: string;
+  posterPath: string;
+  addedAt: string;
+}
+
+interface FavoriteItem {
+  id: string;
+  userId: string;
+  movieId: number;
+  movieTitle: string;
+  posterPath: string;
+  addedAt: string;
 }
