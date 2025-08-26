@@ -37,26 +37,26 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-primary justify-center px-6">
+    <View className="flex-1 bg-primary justify-center px-8">
       {/* Logo */}
       <View className="items-center mb-12">
         <Image 
           source={icons.logo}
-          className="w-16 h-16 mb-4"
+          className="w-20 h-20 mb-6"
           resizeMode="contain"
         />
-        <Text className="text-white text-3xl font-bold mb-2">
+        <Text className="text-white text-3xl font-bold mb-3">
           Welcome Back
         </Text>
-        <Text className="text-gray-400 text-base text-center">
+        <Text className="text-gray-400 text-lg text-center">
           Sign in to continue watching
         </Text>
       </View>
       
       {/* Form */}
-      <View>
+      <View className="mb-8">
         <TextInput
-          className="bg-secondary p-4 rounded-xl text-white mb-4"
+          className="bg-secondary p-5 rounded-xl text-white mb-6"
           placeholder="Email"
           placeholderTextColor="#666"
           value={email}
@@ -70,7 +70,7 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
         <View className="relative">
           <TextInput
             ref={passwordRef}
-            className="bg-secondary p-4 pr-12 rounded-xl text-white"
+            className="bg-secondary p-5 pr-14 rounded-xl text-white"
             placeholder="Password"
             placeholderTextColor="#666"
             value={password}
@@ -81,11 +81,11 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-4"
+            className="absolute right-5 top-5"
           >
             <Ionicons
               name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              size={20}
+              size={22}
               color="#666"
             />
           </TouchableOpacity>
@@ -93,7 +93,7 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
       </View>
       
       <TouchableOpacity
-        className={`mt-8 p-4 rounded-xl ${loading ? 'bg-gray-600' : 'bg-accent'}`}
+        className={`p-5 rounded-xl mb-8 ${loading ? 'bg-gray-600' : 'bg-accent'}`}
         onPress={handleSignIn}
         disabled={loading}
       >
@@ -106,20 +106,22 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
         )}
       </TouchableOpacity>
       
-      <TouchableOpacity
-        className="mt-6"
-        onPress={() => router.push('/(auth)/signup')}
-      >
-        <Text className="text-gray-400 text-center">
-          Don't have an account? <Text className="text-accent font-semibold">Sign Up</Text>
-        </Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity className="mt-4">
-        <Text className="text-gray-500 text-center text-sm">
-          Forgot your password?
-        </Text>
-      </TouchableOpacity>
+      <View className="items-center">
+        <TouchableOpacity
+          className="mb-4"
+          onPress={() => router.push('/(auth)/signup')}
+        >
+          <Text className="text-gray-400 text-center text-lg">
+            Don't have an account? <Text className="text-accent font-semibold">Sign Up</Text>
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity>
+          <Text className="text-gray-500 text-center">
+            Forgot your password?
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
