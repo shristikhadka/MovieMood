@@ -1,4 +1,5 @@
 import { Client, Databases, ID, Query } from "react-native-appwrite";
+import { getCurrentUser } from "./auth";
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID!;
 const COLLECTION_ID = process.env.EXPO_PUBLIC_APPWRITE_COLLECTION_ID!;
@@ -61,11 +62,15 @@ export const getTrendingMovies = async (): Promise<
 // Watchlist Functions
 export const addToWatchlist = async (movie: Movie) => {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("User not authenticated");
+
     await database.createDocument(
       DATABASE_ID,
       WATCHLIST_COLLECTION_ID,
       ID.unique(),
       {
+        userId: user.$id,
         movieId: movie.id,
         movieTitle: movie.title,
         posterPath: movie.poster_path,
@@ -80,10 +85,13 @@ export const addToWatchlist = async (movie: Movie) => {
 
 export const getWatchlist = async (): Promise<WatchlistItem[]> => {
   try {
+    const user = await getCurrentUser();
+    if (!user) return [];
+
     const result = await database.listDocuments(
       DATABASE_ID,
       WATCHLIST_COLLECTION_ID,
-      [Query.orderDesc("addedAt")]
+      [Query.equal("userId", user.$id), Query.orderDesc("addedAt")]
     );
     return result.documents as unknown as WatchlistItem[];
   } catch (error) {
@@ -94,10 +102,13 @@ export const getWatchlist = async (): Promise<WatchlistItem[]> => {
 
 export const removeFromWatchlist = async (movieId: number) => {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("User not authenticated");
+
     const result = await database.listDocuments(
       DATABASE_ID,
       WATCHLIST_COLLECTION_ID,
-      [Query.equal("movieId", movieId)]
+      [Query.equal("userId", user.$id), Query.equal("movieId", movieId)]
     );
     
     if (result.documents.length > 0) {
@@ -115,10 +126,13 @@ export const removeFromWatchlist = async (movieId: number) => {
 
 export const isInWatchlist = async (movieId: number): Promise<boolean> => {
   try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const result = await database.listDocuments(
       DATABASE_ID,
       WATCHLIST_COLLECTION_ID,
-      [Query.equal("movieId", movieId)]
+      [Query.equal("userId", user.$id), Query.equal("movieId", movieId)]
     );
     return result.documents.length > 0;
   } catch (error) {
@@ -130,11 +144,15 @@ export const isInWatchlist = async (movieId: number): Promise<boolean> => {
 // Favorites Functions
 export const addToFavorites = async (movie: Movie) => {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("User not authenticated");
+
     await database.createDocument(
       DATABASE_ID,
       FAVORITES_COLLECTION_ID,
       ID.unique(),
       {
+        userId: user.$id,
         movieId: movie.id,
         movieTitle: movie.title,
         posterPath: movie.poster_path,
@@ -149,10 +167,13 @@ export const addToFavorites = async (movie: Movie) => {
 
 export const getFavorites = async (): Promise<FavoriteItem[]> => {
   try {
+    const user = await getCurrentUser();
+    if (!user) return [];
+
     const result = await database.listDocuments(
       DATABASE_ID,
       FAVORITES_COLLECTION_ID,
-      [Query.orderDesc("addedAt")]
+      [Query.equal("userId", user.$id), Query.orderDesc("addedAt")]
     );
     return result.documents as unknown as FavoriteItem[];
   } catch (error) {
@@ -163,10 +184,13 @@ export const getFavorites = async (): Promise<FavoriteItem[]> => {
 
 export const removeFromFavorites = async (movieId: number) => {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw new Error("User not authenticated");
+
     const result = await database.listDocuments(
       DATABASE_ID,
       FAVORITES_COLLECTION_ID,
-      [Query.equal("movieId", movieId)]
+      [Query.equal("userId", user.$id), Query.equal("movieId", movieId)]
     );
     
     if (result.documents.length > 0) {
@@ -184,10 +208,13 @@ export const removeFromFavorites = async (movieId: number) => {
 
 export const isInFavorites = async (movieId: number): Promise<boolean> => {
   try {
+    const user = await getCurrentUser();
+    if (!user) return false;
+
     const result = await database.listDocuments(
       DATABASE_ID,
       FAVORITES_COLLECTION_ID,
-      [Query.equal("movieId", movieId)]
+      [Query.equal("userId", user.$id), Query.equal("movieId", movieId)]
     );
     return result.documents.length > 0;
   } catch (error) {
