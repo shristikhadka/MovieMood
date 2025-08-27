@@ -10,7 +10,7 @@ import { useRouter } from "expo-router";
 
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
-import { getTrendingMovies } from "@/services/appwrite";
+import { getTrendingMovies } from '@/services/appwrite';
 
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
@@ -66,7 +66,7 @@ const Index = () => {
               placeholder="Search for a movie"
             />
 
-            {trendingMovies && (
+            {trendingMovies && Array.isArray(trendingMovies) && trendingMovies.length > 0 && (
               <View className="mt-10">
                 <Text className="text-lg text-white font-bold mb-3">
                   Trending Movies
@@ -94,7 +94,7 @@ const Index = () => {
               </Text>
 
               <FlatList
-                data={movies}
+                data={movies || []}
                 renderItem={({ item }) => <MovieCard {...item} />}
                 keyExtractor={(item) => item.id.toString()}
                 numColumns={3}
