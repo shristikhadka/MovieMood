@@ -10,6 +10,7 @@ export interface AuthUser {
   $id: string;
   name: string;
   email: string;
+  $createdAt?: string;
 }
 
 // Simple login function
@@ -90,5 +91,15 @@ export const isLoggedIn = async (): Promise<boolean> => {
     return true;
   } catch (error) {
     return false;
+  }
+};
+
+// Change password function
+export const changePassword = async (currentPassword: string, newPassword: string): Promise<void> => {
+  try {
+    await account.updatePassword(newPassword, currentPassword);
+  } catch (error: any) {
+    console.error("Password change error:", error);
+    throw new Error(error.message || "Failed to change password");
   }
 };

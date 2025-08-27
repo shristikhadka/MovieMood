@@ -5,6 +5,7 @@ import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { icons } from '@/constants/icons';
+import { images } from '@/constants/images';
 import { getFavorites, getWatchlist, removeFromFavorites, removeFromWatchlist } from '@/services/appwrite';
 
 const Save = () => {
@@ -101,121 +102,133 @@ const Save = () => {
 
   if (loading) {
     return (
-      <SafeAreaView className="bg-primary flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#fff" />
-        <Text className="text-white mt-4">Loading saved movies...</Text>
-      </SafeAreaView>
+      <View className="flex-1 bg-primary">
+        <Image
+          source={images.bg}
+          className="absolute w-full h-full z-0"
+          resizeMode="cover"
+        />
+        <SafeAreaView className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#fff" />
+          <Text className="text-white mt-4">Loading saved movies...</Text>
+        </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView className="bg-primary flex-1">
-      {/* Header */}
-      <View className="flex-row justify-center items-center mt-4 mb-6">
-        <Image source={icons.logo} className="w-12 h-10" />
-        <Text className="text-white text-xl font-bold ml-3">My Movies</Text>
-      </View>
+    <View className="flex-1 bg-primary">
+      <Image
+        source={images.bg}
+        className="absolute w-full h-full z-0"
+        resizeMode="cover"
+      />
+      
+      <SafeAreaView className="flex-1">
+        {/* Header */}
+        <Image source={icons.logo} className="w-12 h-10 mt-20 mb-8 mx-auto" />
 
-      {/* Tab Navigation */}
-      <View className="flex-row mx-5 mb-6 bg-gray-800 rounded-lg p-1">
-        <TouchableOpacity
-          className={`flex-1 py-3 px-4 rounded-lg ${
-            activeTab === 'watchlist' ? 'bg-accent' : 'bg-transparent'
-          }`}
-          onPress={() => setActiveTab('watchlist')}
-        >
-          <View className="flex-row items-center justify-center">
-            <Ionicons 
-              name="bookmark-outline" 
-              size={20} 
-              color={activeTab === 'watchlist' ? '#fff' : '#9ca3af'} 
-            />
-            <Text className={`ml-2 font-bold ${
-              activeTab === 'watchlist' ? 'text-white' : 'text-gray-400'
-            }`}>
-              Watchlist ({watchlist.length})
-            </Text>
-          </View>
-        </TouchableOpacity>
-        
-        <TouchableOpacity
-          className={`flex-1 py-3 px-4 rounded-lg ${
-            activeTab === 'favorites' ? 'bg-accent' : 'bg-transparent'
-          }`}
-          onPress={() => setActiveTab('favorites')}
-        >
-          <View className="flex-row items-center justify-center">
-            <Ionicons 
-              name="heart-outline" 
-              size={20} 
-              color={activeTab === 'favorites' ? '#fff' : '#9ca3af'} 
-            />
-            <Text className={`ml-2 font-bold ${
-              activeTab === 'favorites' ? 'text-white' : 'text-gray-400'
-            }`}>
-              Favorites ({favorites.length})
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        {/* Tab Navigation */}
+        <View className="flex-row mx-5 mb-6 bg-gray-800 rounded-lg p-1">
+          <TouchableOpacity
+            className={`flex-1 py-3 px-4 rounded-lg ${
+              activeTab === 'watchlist' ? 'bg-accent' : 'bg-transparent'
+            }`}
+            onPress={() => setActiveTab('watchlist')}
+          >
+            <View className="flex-row items-center justify-center">
+              <Ionicons 
+                name="bookmark-outline" 
+                size={20} 
+                color={activeTab === 'watchlist' ? '#fff' : '#9ca3af'} 
+              />
+              <Text className={`ml-2 font-bold ${
+                activeTab === 'watchlist' ? 'text-white' : 'text-gray-400'
+              }`}>
+                Watchlist ({watchlist.length})
+              </Text>
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            className={`flex-1 py-3 px-4 rounded-lg ${
+              activeTab === 'favorites' ? 'bg-accent' : 'bg-transparent'
+            }`}
+            onPress={() => setActiveTab('favorites')}
+          >
+            <View className="flex-row items-center justify-center">
+              <Ionicons 
+                name="heart-outline" 
+                size={20} 
+                color={activeTab === 'favorites' ? '#fff' : '#9ca3af'} 
+              />
+              <Text className={`ml-2 font-bold ${
+                activeTab === 'favorites' ? 'text-white' : 'text-gray-400'
+              }`}>
+                Favorites ({favorites.length})
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      {/* Content */}
-      <View className="flex-1 px-5">
-        {activeTab === 'watchlist' ? (
-          watchlist.length > 0 ? (
-            <FlatList
-              data={watchlist}
-              renderItem={renderMovieItem}
-              keyExtractor={(item) => item.$id || item.id}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 100 }}
-            />
+        {/* Content */}
+        <View className="flex-1 px-5">
+          {activeTab === 'watchlist' ? (
+            watchlist.length > 0 ? (
+              <FlatList
+                data={watchlist}
+                renderItem={renderMovieItem}
+                keyExtractor={(item) => item.$id || item.id}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 100 }}
+              />
+            ) : (
+              <View className="flex-1 justify-center items-center">
+                <Ionicons name="bookmark-outline" size={64} color="#6b7280" />
+                <Text className="text-gray-500 text-lg mt-4 text-center">
+                  Your watchlist is empty
+                </Text>
+                <Text className="text-gray-400 text-sm mt-2 text-center">
+                  Add movies to your watchlist to see them here
+                </Text>
+                <TouchableOpacity
+                  className="bg-accent px-6 py-3 rounded-lg mt-6"
+                  onPress={() => router.push('/')}
+                >
+                  <Text className="text-white font-bold">Browse Movies</Text>
+                </TouchableOpacity>
+              </View>
+            )
           ) : (
-            <View className="flex-1 justify-center items-center">
-              <Ionicons name="bookmark-outline" size={64} color="#6b7280" />
-              <Text className="text-gray-500 text-lg mt-4 text-center">
-                Your watchlist is empty
-              </Text>
-              <Text className="text-gray-400 text-sm mt-2 text-center">
-                Add movies to your watchlist to see them here
-              </Text>
-              <TouchableOpacity
-                className="bg-accent px-6 py-3 rounded-lg mt-6"
-                onPress={() => router.push('/')}
-              >
-                <Text className="text-white font-bold">Browse Movies</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        ) : (
-          favorites.length > 0 ? (
-            <FlatList
-              data={favorites}
-              renderItem={({ item }) => renderMovieItem({ item, isFavorite: true })}
-              keyExtractor={(item) => item.$id || item.id}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 100 }}
-            />
-          ) : (
-            <View className="flex-1 justify-center items-center">
-              <Ionicons name="heart-outline" size={64} color="#6b7280" />
-              <Text className="text-gray-500 text-lg mt-4 text-center">
-                No favorite movies yet
-              </Text>
-              <Text className="text-gray-400 text-sm mt-2 text-center">
-                Like movies to add them to your favorites
-              </Text>
-              <TouchableOpacity
-                className="bg-accent px-6 py-3 rounded-lg mt-6"
-                onPress={() => router.push('/')}
-              >
-                <Text className="text-white font-bold">Discover Movies</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        )}
-      </View>
-    </SafeAreaView>
+            favorites.length > 0 ? (
+              <FlatList
+                data={favorites}
+                renderItem={({ item }) => renderMovieItem({ item, isFavorite: true })}
+                keyExtractor={(item) => item.$id || item.id}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 100 }}
+              />
+            ) : (
+              <View className="flex-1 justify-center items-center">
+                <Ionicons name="heart-outline" size={64} color="#6b7280" />
+                <Text className="text-gray-500 text-lg mt-4 text-center">
+                  No favorite movies yet
+                </Text>
+                <Text className="text-gray-400 text-sm mt-2 text-center">
+                  Like movies to add them to your favorites
+                </Text>
+                <TouchableOpacity
+                  className="bg-accent px-6 py-3 rounded-lg mt-6"
+                  onPress={() => router.push('/')}
+                >
+                  <Text className="text-white font-bold">Discover Movies</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          )}
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 
