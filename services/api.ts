@@ -137,17 +137,55 @@ export const fetchGenres = async (): Promise<any[]> => {
     return data.genres;
 };
 
+// Fetch movies by multiple genres (for mood-based recommendations)
+export const fetchMoviesByGenres = async (genreIds: number[]): Promise<Movie[]> => {
+    const genreString = genreIds.join(',');
+    const endpoint = `${TMDB_CONFIG.BASE_URL}/discover/movie?with_genres=${genreString}&sort_by=popularity.desc&vote_average.gte=6.0`;
+    
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+    });
 
-// const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
-// const options = {
-//   method: 'GET',
-//   headers: {
-//     accept: 'application/json',
-//     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4Mjk4MmQzOWUwODRlMTZhOTAyMGRkNWE3ODVlMDViYyIsIm5iZiI6MTc0NzUyNDI5OC44Miwic3ViIjoiNjgyOTFhY2E3YzlkMjc5OGU5ZGIyNGNjIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nTM7wl0bqmTJXmE6qvkcKf2cIOJi0I3mRMNQpgzyOns'
-//   }
-// };
+    if (!response.ok) {
+        throw new Error('Failed to fetch movies by genres');
+    }
 
-// fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error(err));
+    const data = await response.json();
+    return data.results;
+};
+
+// Fetch trending movies (for mood recommendations)
+export const fetchTrendingMovies = async (timeWindow: 'day' | 'week' = 'week'): Promise<Movie[]> => {
+    const endpoint = `${TMDB_CONFIG.BASE_URL}/trending/movie/${timeWindow}`;
+    
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch trending movies');
+    }
+
+    const data = await response.json();
+    return data.results;
+};
+
+// Fetch top rated movies (for high-quality recommendations)
+export const fetchTopRatedMovies = async (): Promise<Movie[]> => {
+    const endpoint = `${TMDB_CONFIG.BASE_URL}/movie/top_rated`;
+    
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: TMDB_CONFIG.headers,
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch top rated movies');
+    }
+
+    const data = await response.json();
+    return data.results;
+};
+

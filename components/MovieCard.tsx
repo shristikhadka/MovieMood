@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { Text, Image, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { icons } from "@/constants/icons";
 
@@ -19,7 +19,7 @@ const MovieCard = ({
               ? `https://image.tmdb.org/t/p/w500${poster_path}`
               : "https://placehold.co/600x400/1a1a1a/FFFFFF.png",
           }}
-          className="w-full h-52 rounded-lg"
+          className="w-full aspect-[2/3] rounded-lg"
           resizeMode="cover"
         />
 

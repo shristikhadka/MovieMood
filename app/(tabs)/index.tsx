@@ -1,38 +1,68 @@
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  ScrollView,
-  Image,
-  FlatList,
-} from "react-native";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
+import { fetchMovies, fetchTrendingMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
-import { fetchMovies } from "@/services/api";
-import { getTrendingMovies } from '@/services/appwrite';
 
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 
-import SearchBar from "@/components/SearchBar";
+import MoodMatcher from "@/components/MoodMatcher";
+import MoodRecommendations from "@/components/MoodRecommendations";
 import MovieCard from "@/components/MovieCard";
-import TrendingCard from "@/components/TrendingCard";
+import SearchBar from "@/components/SearchBar";
+import TrendingMovieCard from "@/components/TrendingMovieCard";
+import { MoodAnalysis } from "@/services/aiService";
 
 const Index = () => {
   const router = useRouter();
+  
+  // Mood-based recommendations state
+  const [moodRecommendations, setMoodRecommendations] = useState<{
+    movies: Movie[];
+    moodAnalysis: MoodAnalysis;
+    contextInfo: {
+      weather: string | null;
+      time: string;
+      season: string;
+    };
+  } | null>(null);
 
   const {
     data: trendingMovies,
     loading: trendingLoading,
     error: trendingError,
-  } = useFetch(getTrendingMovies);
+  } = useFetch(fetchTrendingMovies);
 
   const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
   } = useFetch(() => fetchMovies({ query: "" }));
+
+  const handleMoodRecommendations = (movies: Movie[], moodAnalysis: MoodAnalysis, contextInfo: {
+    weather: string | null;
+    time: string;
+    season: string;
+  }) => {
+    setMoodRecommendations({ movies, moodAnalysis, contextInfo });
+  };
+
+  const handleResetMood = () => {
+    setMoodRecommendations(null);
+  };
+
+  const handleMoviePress = (movie: Movie) => {
+    router.push(`/movies/${movie.id}`);
+  };
 
   return (
     <View className="flex-1 bg-primary">
@@ -66,6 +96,19 @@ const Index = () => {
               placeholder="Search for a movie"
             />
 
+            {/* Mood Matcher Section */}
+            {!moodRecommendations ? (
+              <MoodMatcher onRecommendations={handleMoodRecommendations} />
+            ) : (
+              <MoodRecommendations
+                movies={moodRecommendations.movies}
+                moodAnalysis={moodRecommendations.moodAnalysis}
+                contextInfo={moodRecommendations.contextInfo}
+                onMoviePress={handleMoviePress}
+                onReset={handleResetMood}
+              />
+            )}
+
             {trendingMovies && Array.isArray(trendingMovies) && trendingMovies.length > 0 && (
               <View className="mt-10">
                 <Text className="text-lg text-white font-bold mb-3">
@@ -80,9 +123,9 @@ const Index = () => {
                     gap: 26,
                   }}
                   renderItem={({ item, index }) => (
-                    <TrendingCard movie={item} index={index} />
+                    <TrendingMovieCard {...item} />
                   )}
-                  keyExtractor={(item) => item.movie_id.toString()}
+                  keyExtractor={(item) => item.id.toString()}
                   ItemSeparatorComponent={() => <View className="w-4" />}
                 />
               </View>
@@ -99,10 +142,9 @@ const Index = () => {
                 keyExtractor={(item) => item.id.toString()}
                 numColumns={3}
                 columnWrapperStyle={{
-                  justifyContent: "flex-start",
-                  gap: 20,
-                  paddingRight: 5,
-                  marginBottom: 10,
+                  justifyContent: "space-between",
+                  paddingHorizontal: 2,
+                  marginBottom: 6,
                 }}
                 className="mt-2 pb-32"
                 scrollEnabled={false}
