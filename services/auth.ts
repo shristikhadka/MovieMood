@@ -38,9 +38,10 @@ export const login = async (email: string, password: string): Promise<AuthUser> 
     await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     return user as AuthUser;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Login error:", error);
-    throw new Error(error.message || "Login failed");
+    const errorMessage = error instanceof Error ? error.message : "Login failed";
+    throw new Error(errorMessage);
   }
 };
 
@@ -58,9 +59,10 @@ export const signup = async (name: string, email: string, password: string): Pro
     await account.createEmailPasswordSession(email, password);
     const user = await account.get();
     return user as AuthUser;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Signup error:", error);
-    throw new Error(error.message || "Signup failed");
+    const errorMessage = error instanceof Error ? error.message : "Signup failed";
+    throw new Error(errorMessage);
   }
 };
 
@@ -68,9 +70,10 @@ export const signup = async (name: string, email: string, password: string): Pro
 export const logout = async (): Promise<void> => {
   try {
     await account.deleteSessions();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Logout error:", error);
-    throw new Error(error.message || "Logout failed");
+    const errorMessage = error instanceof Error ? error.message : "Logout failed";
+    throw new Error(errorMessage);
   }
 };
 
@@ -98,8 +101,9 @@ export const isLoggedIn = async (): Promise<boolean> => {
 export const changePassword = async (currentPassword: string, newPassword: string): Promise<void> => {
   try {
     await account.updatePassword(newPassword, currentPassword);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Password change error:", error);
-    throw new Error(error.message || "Failed to change password");
+    const errorMessage = error instanceof Error ? error.message : "Failed to change password";
+    throw new Error(errorMessage);
   }
 };

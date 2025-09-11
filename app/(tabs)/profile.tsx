@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator, Image, TextInput, Modal } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from 'expo-router';
-import { getCurrentUser, logout, changePassword, AuthUser } from '@/services/auth';
-import { getWatchlist, getFavorites } from '@/services/appwrite';
-import { Ionicons } from '@expo/vector-icons';
-import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
+import { images } from '@/constants/images';
+import { getFavorites, getWatchlist } from '@/services/appwrite';
+import { AuthUser, changePassword, getCurrentUser, logout } from '@/services/auth';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -59,8 +59,9 @@ const Profile = () => {
               setUser(null);
               // Navigate to login
               router.replace('/(auth)/login');
-            } catch (error: any) {
-              Alert.alert('Error', error.message);
+            } catch (error: unknown) {
+              const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+              Alert.alert('Error', errorMessage);
             }
           },
         },
@@ -92,8 +93,9 @@ const Profile = () => {
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-    } catch (error: any) {
-      Alert.alert('Error', error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      Alert.alert('Error', errorMessage);
     } finally {
       setPasswordLoading(false);
     }

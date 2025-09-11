@@ -84,7 +84,7 @@ export const fetchMovieTrailers = async (movieId: number): Promise<any[]> => {
 
     const data = await response.json();
     // Filter for trailers only
-    return data.results.filter((video: any) => video.type === 'Trailer');
+    return data.results.filter((video: { type: string }) => video.type === 'Trailer');
 };
 
 // Fetch movie credits (cast and crew)

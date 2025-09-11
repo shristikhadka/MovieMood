@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter, useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -60,7 +60,7 @@ const Save = () => {
     }
   };
 
-  const renderMovieItem = ({ item, isFavorite = false }: { item: any; isFavorite?: boolean }) => (
+  const renderMovieItem = ({ item, isFavorite = false }: { item: WatchlistItem | FavoriteItem; isFavorite?: boolean }) => (
     <TouchableOpacity
       className="flex-row bg-gray-800 rounded-lg p-3 mb-3"
       onPress={() => router.push(`/movies/${item.movieId}`)}
@@ -178,7 +178,7 @@ const Save = () => {
               <FlatList
                 data={watchlist}
                 renderItem={renderMovieItem}
-                keyExtractor={(item) => item.$id || item.id}
+                keyExtractor={(item, index) => `${item.movieId}_${index}`}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 100 }}
               />
@@ -204,7 +204,7 @@ const Save = () => {
               <FlatList
                 data={favorites}
                 renderItem={({ item }) => renderMovieItem({ item, isFavorite: true })}
-                keyExtractor={(item) => item.$id || item.id}
+                keyExtractor={(item, index) => `${item.movieId}_${index}`}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 100 }}
               />

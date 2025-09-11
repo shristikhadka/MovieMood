@@ -1,11 +1,17 @@
-import React from 'react';
-import { View, Text, StyleSheet, ImageBackground,Image } from 'react-native';
-import {Tabs} from "expo-router";
-import { images } from '@/constants/images';
 import { icons } from '@/constants/icons';
+import { images } from '@/constants/images';
+import { Tabs } from "expo-router";
+import React from 'react';
+import { Image, ImageBackground, Text, View } from 'react-native';
 
 
-const TabIcon=({focused,icon,title}: any)=>{
+interface TabIconProps {
+  focused: boolean;
+  icon: string;
+  title: string;
+}
+
+const TabIcon = ({ focused, icon, title }: TabIconProps) => {
     if (focused){
 
         return(
@@ -89,6 +95,21 @@ const _Layout = () => {
                         <TabIcon focused={focused}
                         icon={icons.save} 
                         title="Saved"
+                        /> 
+                    </>
+                )
+            }}
+        />
+        <Tabs.Screen
+            name="investment"
+            options={{
+                title:'Investment',
+                headerShown:false,
+                tabBarIcon:({ focused })=>(
+                    <>
+                        <TabIcon focused={focused}
+                        icon={icons.star} 
+                        title="Invest"
                         /> 
                     </>
                 )
