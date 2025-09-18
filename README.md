@@ -1,201 +1,86 @@
-# 🎬 MovieMood - AI-Powered Movie Recommendations
+# MovieMood – AI-Powered Movie Discovery
 
-MovieMood is a sophisticated React Native app that uses AI to provide personalized movie recommendations based on your current mood, weather conditions, and time context. It also features a realistic movie investment simulator where you can trade virtual movie stocks.
+React Native app that combines mood-based AI recommendations, weather-aware personalization, and a virtual movie stock market.
 
-## ✨ Key Features
+![MovieMood Home Screen](https://imgur.com/RgkIdVL)
 
-### AI-Powered Mood Analysis
-- **Real-time mood detection** using Google Gemini AI
-- **Context-aware recommendations** based on weather and time
-- **Quick mood selection** with 8+ pre-defined mood states
-- **Smart genre mapping** that adapts to your emotional state
+## 🚀 Features
 
-### Real Weather Integration
-- **Live weather data** from OpenWeatherMap API
-- **Location-based context** for better recommendations
-- **Weather mood influence** (sunny = upbeat, rainy = cozy)
-- **Intelligent caching** for optimal performance
+### AI Mood Matching
+*Context-aware AI that considers weather, time, and sentiment*
 
-### Investment Simulator
-- **Realistic movie stock trading** with complex pricing algorithms
-- **Portfolio management** with P&L tracking and risk analysis
-- **Market simulation** with 14+ pricing factors including popularity, ratings, and seasonal trends
-- **Performance analytics** with win rates and best/worst performers
+![Mood-Based Recommendations](https://imgur.com/kvutwjF)
 
-### Advanced Features
-- **User authentication** with Appwrite backend
-- **Personalized watchlists** and favorites
-- **Search and discovery** with trending movies
-- **Professional UI/UX** with modern design patterns
+- Natural language explanations of recommendations
+- Smart fallback system when AI is unavailable
+- Weather and time context integration
 
-## Tech Stack
+### Movie Investment Simulator
+*Dynamic movie stock prices with realistic market simulation*
 
-- **Frontend**: React Native, TypeScript, Expo
-- **Styling**: TailwindCSS + NativeWind
-- **AI Integration**: Google Gemini AI
-- **Weather**: OpenWeatherMap API
-- **Movie Data**: The Movie Database (TMDB) API
-- **Backend**: Appwrite (Authentication, Database)
-- **State Management**: React Hooks + AsyncStorage
-- **Navigation**: Expo Router
+![Investment Simulator](https://imgur.com/7gTRMp1)
 
-## Quick Start
+- Complex pricing algorithm (popularity, ratings, seasonal trends, demand)
+- Buy/sell with transaction history
+- Portfolio analytics: P&L, win rate, risk assessment
 
-### Prerequisites
-- Node.js 18+
-- Expo CLI
-- iOS Simulator / Android Emulator
+### Analytics Dashboard
+*Data visualization and business intelligence*
 
-### 1. Clone and Install
-```bash
-git clone <your-repo-url>
-cd MovieMood
-npm install
-```
+![Analytics Dashboard](https://imgur.com/aHEMOiz)
 
-### 2. Environment Setup
-Create your `.env` file with the required API keys:
+- Interactive charts (line, bar, pie)
+- Genre/seasonal trend insights
+- ROI analysis and top performers
 
-```bash
-# Copy the example file
-cp .env.example .env
-```
+### Other Features
 
-**Required API Keys (All FREE):**
+- **Personalized Watchlists** - Save and organize favorite movies
+- **Trending Discovery** - Real-time trending movies from TMDB
+- **Search & Discovery** - Find movies with advanced filtering
+- **User Authentication** - Secure login with Appwrite backend
+- **Mobile Optimization** - Built for React Native with performance focus
 
-#### OpenWeatherMap API (FREE)
-1. Visit [OpenWeatherMap API](https://openweathermap.org/api)
-2. Sign up for free account
-3. Get your API key from the dashboard
-4. Add to `.env`: `EXPO_PUBLIC_OPENWEATHER_API_KEY=your_key_here`
+## 🛠 Tech Stack
 
-#### Google Gemini AI (FREE)
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Create free account
-3. Generate API key
-4. Add to `.env`: `EXPO_PUBLIC_GEMINI_API_KEY=your_key_here`
+- **React Native** + **TypeScript** + **Expo**
+- **Google Gemini AI** for mood analysis
+- **TMDB** for movies & metadata
+- **OpenWeatherMap** for weather integration
+- **Appwrite** backend
+- **TailwindCSS** (via NativeWind) for styling
+- **Expo Router** for navigation
 
-#### TMDB API (FREE)
-1. Visit [TMDB API](https://www.themoviedb.org/settings/api)
-2. Create free account
-3. Request API key
-4. Add to `.env`: `EXPO_PUBLIC_MOVIE_API_KEY=your_key_here`
-
-#### Appwrite Backend (FREE)
-1. Visit [Appwrite Cloud](https://appwrite.io/)
-2. Create free project
-3. Set up database and collections
-4. Add credentials to `.env`
-
-### 3. Run the App
-```bash
-# Start the development server
-npx expo start
-
-# Run on specific platforms
-npx expo start --ios
-npx expo start --android
-npx expo start --web
-```
-
-## 📱 App Structure
+## 📂 Project Structure
 
 ```
 MovieMood/
-├── app/                    # App screens (Expo Router)
-│   ├── (auth)/            # Authentication screens
-│   ├── (tabs)/            # Main app tabs
-│   └── movies/            # Movie detail screens
-├── components/            # Reusable UI components
-│   ├── auth/              # Authentication components
-│   ├── MoodMatcher.tsx    # AI mood analysis interface
-│   ├── TradingInterface.tsx # Investment trading UI
-│   └── PortfolioDashboard.tsx # Portfolio management
-├── services/              # Business logic & API integration
-│   ├── aiService.ts       # Google Gemini AI integration
-│   ├── weatherService.ts  # OpenWeatherMap integration
-│   ├── portfolioService.ts # Investment portfolio logic
-│   ├── priceService.ts    # Movie stock pricing algorithm
-│   ├── api.ts            # TMDB API integration
-│   └── appwrite.ts       # Backend configuration
-├── constants/             # App constants and configurations
-├── types/                # TypeScript type definitions
-└── .env                  # Environment variables
+├── app/             # Screens (Expo Router)
+├── components/      # UI components (MoodMatcher, TradingInterface, AnalyticsDashboard)
+├── services/        # Business logic & API integrations
+├── constants/       # App configs
+└── types/           # TypeScript types
 ```
 
-## Core Algorithms
-
-### Mood Analysis Algorithm
-The AI mood analysis considers multiple factors:
-- **User input sentiment** (primary factor)
-- **Current weather conditions** (sunny = energetic, rainy = cozy)
-- **Time of day** (morning = high energy, evening = relaxing)
-- **Seasonal influences** (winter = nostalgic, summer = adventurous)
-
-### Movie Stock Pricing
-Sophisticated pricing algorithm with 14+ factors:
-- **Popularity score** (0-1000 scale)
-- **Rating weighted by vote count**
-- **Release date recency factor**
-- **Budget and revenue performance**
-- **Genre popularity multipliers**
-- **Seasonal trends** (horror peaks in October)
-- **Market volatility simulation**
-- **Real-time supply/demand modeling**
-
-## 🧪 Testing
+## ⚙️ Setup
 
 ```bash
-# Run linting
-npm run lint
-
-# Run type checking
-npx tsc --noEmit
-
-# Run tests (when implemented)
-npm test
+git clone https://github.com/shristikhadka/MovieMood.git
+cd MovieMood
+npm install
+cp .env.example .env   
+npx expo start
 ```
 
-## Performance Features
+**Required API Keys (all free):** Google Gemini AI, OpenWeatherMap, TMDB, Appwrite
 
-- **Intelligent caching** for weather and movie data
-- **Optimized image loading** with lazy loading
-- **Debounced search** to reduce API calls
-- **Background sync** for portfolio updates
-- **Memory-efficient** list rendering with FlatList
+## 🎯 Why This Project Matters
 
-## Security & Privacy
-
-- **Environment variable protection** - No API keys exposed in code
-- **Local data encryption** for sensitive portfolio data
-- **Permission-based location access**
-- **Secure authentication** with Appwrite
-- **Rate limiting** on external API calls
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new features
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgments
-
-- **OpenWeatherMap** for weather data
-- **Google Gemini AI** for intelligent mood analysis
-- **The Movie Database (TMDB)** for comprehensive movie data
-- **Appwrite** for backend infrastructure
-- **React Native & Expo** for excellent development experience
+- **AI integration** → real contextual recommendations
+- **Gamified trading simulator** → unique feature not seen in typical movie apps
+- **Data visualization** → analytics dashboard with real insights
+- **Modern mobile architecture** → TypeScript, Expo Router, modular services
 
 ---
 
-## Support
-
-For questions or support, please open an issue in the GitHub repository.
-
-**Built with ❤️ using React Native, TypeScript, and AI**
+**Built with React Native, TypeScript, and a focus on AI + data-driven user experiences.**
