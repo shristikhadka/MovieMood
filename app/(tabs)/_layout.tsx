@@ -7,7 +7,7 @@ import { Image, ImageBackground, Text, View } from 'react-native';
 
 interface TabIconProps {
   focused: boolean;
-  icon: string;
+  icon: any;
   title: string;
 }
 
@@ -110,6 +110,21 @@ const _Layout = () => {
                         <TabIcon focused={focused}
                         icon={icons.star} 
                         title="Invest"
+                        /> 
+                    </>
+                )
+            }}
+        />
+        <Tabs.Screen
+            name="analytics"
+            options={{
+                title:'Analytics',
+                headerShown:false,
+                tabBarIcon:({ focused })=>(
+                    <>
+                        <TabIcon focused={focused}
+                        icon={icons.play} 
+                        title="Analytics"
                         /> 
                     </>
                 )

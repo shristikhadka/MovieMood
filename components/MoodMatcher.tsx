@@ -84,7 +84,7 @@ const MoodMatcher: React.FC<MoodMatcherProps> = ({ onRecommendations }) => {
       <View style={styles.header}>
         <Ionicons name="sparkles" size={24} color="#AB8BFF" />
         <Text style={styles.title}>Mood Matcher</Text>
-        <Text style={styles.subtitle}>Tell us how you're feeling and we'll find the perfect movie</Text>
+        <Text style={styles.subtitle}>Tell us how you&apos;re feeling and we&apos;ll find the perfect movie</Text>
       </View>
 
       {showQuickMoods && (

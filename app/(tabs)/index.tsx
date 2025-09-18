@@ -22,6 +22,26 @@ import SearchBar from "@/components/SearchBar";
 import TrendingMovieCard from "@/components/TrendingMovieCard";
 import { MoodAnalysis } from "@/services/aiService";
 
+// Import Movie type from interfaces
+declare global {
+  interface Movie {
+    id: number;
+    title: string;
+    adult: boolean;
+    backdrop_path: string;
+    genre_ids: number[];
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    release_date: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+  }
+}
+
 const Index = () => {
   const router = useRouter();
   
@@ -122,7 +142,7 @@ const Index = () => {
                   contentContainerStyle={{
                     gap: 26,
                   }}
-                  renderItem={({ item, index }) => (
+                  renderItem={({ item }) => (
                     <TrendingMovieCard {...item} />
                   )}
                   keyExtractor={(item) => item.id.toString()}

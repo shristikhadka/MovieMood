@@ -112,7 +112,7 @@ const LoginButtons: React.FC<LoginButtonsProps> = ({
           onPress={() => router.push('/(auth)/signup')}
         >
           <Text className="text-gray-400 text-center text-lg">
-            Don't have an account? <Text className="text-accent font-semibold">Sign Up</Text>
+            Don&apos;t have an account? <Text className="text-accent font-semibold">Sign Up</Text>
           </Text>
         </TouchableOpacity>
         

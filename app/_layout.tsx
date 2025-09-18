@@ -33,7 +33,7 @@ export default function RootLayout() {
     try {
       const loggedIn = await isLoggedIn();
       setIsAuthenticated(loggedIn);
-    } catch (error) {
+    } catch {
       setIsAuthenticated(false);
     }
   };
