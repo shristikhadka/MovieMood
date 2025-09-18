@@ -2,14 +2,18 @@
 
 React Native app that combines mood-based AI recommendations, weather-aware personalization, and a virtual movie stock market.
 
-<img src="https://i.imgur.com/RgkIdVL.png" width="400" />
+<p align="center">
+  <img src="https://i.imgur.com/RgkIdVL.png" width="400" />
+</p>
 
 ## 🚀 Features
 
 ### AI Mood Matching
 *Context-aware AI that considers weather, time, and sentiment*
 
-<img src="https://i.imgur.com/kvutwjF.png" width="400" />
+<p align="center">
+  <img src="https://i.imgur.com/kvutwjF.png" width="400" />
+</p>
 
 - Natural language explanations of recommendations
 - Smart fallback system when AI is unavailable
@@ -18,7 +22,9 @@ React Native app that combines mood-based AI recommendations, weather-aware pers
 ### Movie Investment Simulator
 *Dynamic movie stock prices with realistic market simulation*
 
-<img src="https://i.imgur.com/7gTRMp1.png" width="400" />
+<p align="center">
+  <img src="https://i.imgur.com/7gTRMp1.png" width="400" />
+</p>
 
 - Complex pricing algorithm (popularity, ratings, seasonal trends, demand)
 - Buy/sell with transaction history
@@ -27,7 +33,9 @@ React Native app that combines mood-based AI recommendations, weather-aware pers
 ### Analytics Dashboard
 *Data visualization and business intelligence*
 
-<img src="https://i.imgur.com/aHEMOiz.png" width="400" />
+<p align="center">
+  <img src="https://i.imgur.com/aHEMOiz.png" width="400" />
+</p>
 
 - Interactive charts (line, bar, pie)
 - Genre/seasonal trend insights
