@@ -69,25 +69,34 @@ export const analyzeMoodAndContext = async (
         "energy_level": 1-5,
         "preferred_genres": ["genre1", "genre2", "genre3"],
         "time_preference": "short|medium|long",
-        "explanation": "Brief explanation for the recommendation considering weather and time context",
+        "explanation": "Write a warm, personal, conversational explanation that feels like talking to a friend. Use natural language patterns like 'After a long day, you deserve...' or 'Perfect for those moments when...' or 'Sometimes you need stories that...'. Make it feel caring and understanding, not clinical.",
         "recommended_mood": "The specific mood category for movie selection"
       }
       
       Consider these factors in your analysis:
       1. User's emotional state from their input (primary factor)
       2. Time of day influence:
-         - Morning (6-11): Higher energy, prefer upbeat content
-         - Afternoon (12-17): Moderate energy, balanced content
-         - Evening (18-23): Lower energy, prefer relaxing/cozy content
-         - Night (24-5): Very low energy, prefer calming content
+         - Morning (6-11): "Morning energy is perfect for..." or "Start your day right with..."
+         - Afternoon (12-17): "Afternoon calls for..." or "Perfect midday pick-me-up..."
+         - Evening (18-23): "Evening time - perfect for unwinding..." or "Time to melt away the day's tension..."
+         - Night (24-5): "Late night calls for something gentle..." or "Perfect for those quiet night moments..."
       3. Weather influence:
-         - Sunny: Boosts energy, prefer upbeat genres (Action, Comedy, Adventure)
-         - Rainy: Creates cozy mood, prefer emotional content (Drama, Romance)
-         - Cloudy: Contemplative mood, prefer deeper content (Drama, Documentary)
-         - Stormy: Intense mood, prefer dramatic content (Thriller, Horror)
-         - Cold/Snow: Nostalgic mood, prefer comfort content (Family, Romance, Comedy)
+         - Sunny: "The sunshine is calling for..." or "This beautiful weather deserves..."
+         - Rainy: "Perfect cozy weather for..." or "Rainy days are made for..."
+         - Cloudy: "These contemplative skies are perfect for..." or "Cloudy weather calls for..."
+         - Stormy: "The dramatic weather outside calls for..." or "Stormy skies deserve..."
+         - Cold/Snow: "Cold weather is perfect for..." or "Cozy up with..."
       ${weatherGenreBoost ? `4. Weather suggests these genres: ${weatherGenreBoost}` : ''}
       5. Season influence: ${timeContext?.season || 'unknown'} season affects mood preferences
+      
+      For the explanation, use warm, caring language that feels like talking to a close friend. Examples:
+      - "After a long day, you deserve something that..."
+      - "Perfect for those moments when you need..."
+      - "Sometimes you need stories that..."
+      - "Time for something that makes you feel..."
+      - "These films wrap around you like..."
+      - "Looks like it's time to..."
+      - "Your energy deserves stories that..."
       
       Genre mapping guidelines:
       - stressed/tired → Comedy, Romance, Light Drama (comfort viewing)
@@ -155,51 +164,90 @@ const generateFallbackMoodAnalysis = (
   // Smart mood detection based on keywords
   let mood = 'neutral';
   let energy_level = 3;
-  let explanation = 'Based on your input and current context';
+  let explanation = 'Perfect for those moments when you just want to feel good';
   
-  // Analyze sentiment from user input
-  if (input.includes('stress') || input.includes('tired') || input.includes('exhausted')) {
+  // Analyze sentiment from user input with personal language
+  if (input.includes('stress') || input.includes('tired') || input.includes('exhausted') || input.includes('overwhelmed')) {
     mood = 'stressed';
     energy_level = 2;
-  } else if (input.includes('happy') || input.includes('great') || input.includes('excited')) {
+    const stressExplanations = [
+      'After a long day, you deserve something that wraps around you like a warm blanket',
+      'Time to let go of the day\'s weight with something that soothes your soul',
+      'Perfect for melting away today\'s tension and finding your calm',
+      'Sometimes you need stories that don\'t demand too much but give back everything'
+    ];
+    explanation = stressExplanations[Math.floor(Math.random() * stressExplanations.length)];
+  } else if (input.includes('happy') || input.includes('great') || input.includes('excited') || input.includes('amazing')) {
     mood = 'happy';
     energy_level = 4;
-  } else if (input.includes('sad') || input.includes('down') || input.includes('upset')) {
+    const happyExplanations = [
+      'Looks like it\'s time to ride this good energy with something that matches your vibe',
+      'Your positive energy deserves stories that amplify this beautiful feeling',
+      'Perfect for those "I feel amazing" moments when you want to keep the good vibes flowing',
+      'Time to celebrate this mood with something that makes you smile even bigger'
+    ];
+    explanation = happyExplanations[Math.floor(Math.random() * happyExplanations.length)];
+  } else if (input.includes('sad') || input.includes('down') || input.includes('upset') || input.includes('blue')) {
     mood = 'sad';
     energy_level = 2;
-  } else if (input.includes('adventure') || input.includes('explore')) {
+    const sadExplanations = [
+      'Sometimes you need stories that understand what you\'re feeling and help you through it',
+      'Perfect for those moments when you need a gentle companion for your feelings',
+      'Time for stories that hold space for your emotions and offer comfort',
+      'These films wrap around you like a warm hug when you need it most'
+    ];
+    explanation = sadExplanations[Math.floor(Math.random() * sadExplanations.length)];
+  } else if (input.includes('adventure') || input.includes('explore') || input.includes('travel')) {
     mood = 'adventurous';
     energy_level = 4;
-  } else if (input.includes('romantic') || input.includes('love')) {
+    explanation = 'Perfect for those "I want to escape and explore" moments';
+  } else if (input.includes('romantic') || input.includes('love') || input.includes('relationship')) {
     mood = 'romantic';
     energy_level = 3;
-  } else if (input.includes('bored') || input.includes('nothing')) {
+    explanation = 'Time for stories that make your heart flutter and remind you of love\'s magic';
+  } else if (input.includes('bored') || input.includes('nothing') || input.includes('dull')) {
     mood = 'bored';
     energy_level = 2;
-  } else if (input.includes('inspire') || input.includes('motivate')) {
+    explanation = 'When you need something that grabs your attention and doesn\'t let go';
+  } else if (input.includes('inspire') || input.includes('motivate') || input.includes('uplift')) {
     mood = 'inspired';
     energy_level = 4;
+    explanation = 'Perfect for those moments when you want to feel moved and motivated';
+  } else if (input.includes('scared') || input.includes('frightened') || input.includes('horror')) {
+    mood = 'scared';
+    energy_level = 3;
+    explanation = 'Time for something that gets your heart racing and gives you that perfect thrill';
+  } else if (input.includes('nostalgic') || input.includes('memories') || input.includes('childhood')) {
+    mood = 'nostalgic';
+    energy_level = 2;
+    explanation = 'Perfect for those moments when you want to feel connected to beautiful memories';
   }
   
-  // Adjust based on weather context
+  // Adjust based on weather context with natural language
   if (weatherContext) {
     if (weatherContext.weather === 'sunny' && energy_level < 4) {
       energy_level = Math.min(energy_level + 1, 5);
-      explanation += ', boosted by sunny weather';
+      explanation = 'The sunshine is calling for something that matches this beautiful energy';
     } else if (weatherContext.weather === 'rainy' && mood === 'neutral') {
       mood = 'nostalgic';
-      explanation += ', influenced by cozy rainy weather';
+      explanation = 'Perfect cozy weather for stories that feel like a warm hug';
+    } else if (weatherContext.weather === 'cloudy') {
+      explanation = 'These contemplative skies are perfect for something that makes you think and feel';
+    } else if (weatherContext.weather === 'stormy') {
+      explanation = 'The dramatic weather outside calls for equally compelling stories';
     }
   }
   
-  // Adjust based on time context
+  // Adjust based on time context with natural language
   if (timeContext) {
     if (timeContext.hour >= 22 || timeContext.hour <= 6) {
       energy_level = Math.max(energy_level - 1, 1);
-      explanation += ', adjusted for late/early hours';
+      explanation = 'Late night calls for something gentle that won\'t keep you up but will soothe your soul';
     } else if (timeContext.hour >= 6 && timeContext.hour <= 10) {
       energy_level = Math.min(energy_level + 1, 5);
-      explanation += ', boosted for morning energy';
+      explanation = 'Morning energy is perfect for something that gets your day started right';
+    } else if (timeContext.hour >= 18 && timeContext.hour <= 21) {
+      explanation = 'Evening time - perfect for unwinding with something that melts away the day\'s tension';
     }
   }
   
@@ -213,6 +261,7 @@ const generateFallbackMoodAnalysis = (
     'bored': ['Thriller', 'Action', 'Mystery'],
     'inspired': ['Drama', 'Biography', 'Documentary'],
     'nostalgic': ['Drama', 'Family', 'Comedy'],
+    'scared': ['Horror', 'Thriller', 'Mystery'],
     'neutral': ['Drama', 'Comedy', 'Action']
   };
   
